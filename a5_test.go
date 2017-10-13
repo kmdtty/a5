@@ -5,12 +5,23 @@ import (
   "fmt"
 )
 
-func TestSolve(t *testing.T) {
+func Test_solver_intefarce_candidate1(t *testing.T) {
+  // does not work
   fmt.Sprintf("%q", solve())
   code := `
-    P:  x^2 + y^2 < 4
-    Q:  x < 1
-    [[P and Q]]
+    P:=  x^2 + y^2 < 4
+    Q:=  x < 1
+    ∃x∃y(P ∧ Q)
   `
-  eval(code)
+  if eval(code) != true {
+    t.Errorf("evaluation is wrong")
+  }
+}
+
+func TestSolver(t *testing.T) {
+  var x Var
+  var y Var
+  // ∃x∃y(x + y < 4)
+  P := exists([]Var{x, y}, less(plus(x, y), value(4)))
+  t.Logf("%q", P)
 }
